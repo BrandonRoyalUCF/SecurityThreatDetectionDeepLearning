@@ -68,8 +68,8 @@ for row in data:
 all_data_feature_vecs, all_labels = format_data.clean_data(all_data_objects)
 
 
-train_x = all_data_feature_vecs[:45500]
-train_y = all_labels[:45500]
+train_x = all_data_feature_vecs[:45000]
+train_y = all_labels[:45000]
 
 test_x = all_data_feature_vecs[-500:]
 test_y = all_labels[-500:]
@@ -77,11 +77,19 @@ test_y = all_labels[-500:]
 model = Sequential()
 
 model = Sequential()
-model.add(Dense(34, input_dim=96, activation='relu'))
+model.add(Dense(100, input_dim=96, activation='relu'))
 model.add(BatchNormalization())
-model.add(Dense(12, input_dim=34, activation='relu'))
+model.add(Dense(300, input_dim=100, activation='relu'))
 model.add(BatchNormalization())
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(250, input_dim=300, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(125, input_dim=250, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(75, input_dim=125, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(20, input_dim=75, activation='relu'))
+model.add(BatchNormalization())
+model.add(Dense(1, activation='tanh'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['acc'])
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=1000, #batch_size=500,
                  validation_data=(np.array(test_x), np.array(test_y)), verbose=2)
